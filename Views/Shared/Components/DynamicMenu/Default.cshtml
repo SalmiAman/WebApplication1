@@ -1,0 +1,59 @@
+﻿@model List<WebApplication1.ViewModels.Menu>
+
+@{
+    int items = Model.Count();
+    int counter = 0;
+
+}
+
+
+@if (Model.Count > 0)
+{
+    @for (int i = 0; i < items; i++)
+    {
+
+
+
+        @if (Model[i].ParentId == null)
+        {
+
+            <li class="nav-item">
+                <a class="nav-link @(Model[i].ActionName != null ? "":"collapsed")"
+                   data-bs-target="#components-@Model[i].Id"
+                   data-bs-toggle="@(Model[i].ActionName != null ? "":"collapsed")"
+                   href="/@Model[i].ControllerName/@Model[i].ActionName/@ViewBag.moduleId">
+
+                    <i class="@Model[i].MenuIcon"></i>
+                    <span>@Model[i].MenuName</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                @for (int j = 0; j < items; j++)
+                {
+                    <ul id="components-@Model[i].Id" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        @if (Model[i].MenuId == Model[j].ParentId)
+                        {
+
+                            <li>
+                                <a asp-controller="@Model[j].ControllerName" asp-action="@Model[j].ActionName">
+                                    <i class="@Model[j].MenuIcon"></i>
+                                    <span>@Model[j].MenuName</span>
+                                </a>
+                            </li>
+
+                        }
+                    </ul>
+                }
+            </li>
+        }
+
+
+
+
+        @*<li class="nav-heading"><hr /></li>*@
+
+        counter++;
+
+    }
+
+
+}
